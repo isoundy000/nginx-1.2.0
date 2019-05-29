@@ -26,7 +26,7 @@ git clone git clone https://github.com/132982jianan/nginx-1.2.0.git
 yum install -y gcc
 ```
 
-## 4)3个步骤：
+## 4)经历3个步骤完成编译
 
 ```
 bash ./configure --prefix=/usr/jn
@@ -34,12 +34,11 @@ make
 make install
 ```
 
-## 5)
+## 5)如果报错就按照提示安装需要的包
 
 ```
-如果报错就按照提示安装需要的2个包：
-    yum install -y  pcre-devel
-    yum install -y zlib-devel
+yum install -y  pcre-devel
+yum install -y zlib-devel
 ```
 
 ## 6)编译失败提示
