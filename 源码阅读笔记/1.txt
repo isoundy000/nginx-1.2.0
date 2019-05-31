@@ -1,0 +1,54 @@
+1)main入口
+	src/core/nginx.h
+	src/core/nginx.c
+
+里面有很多 NGX_WIN32 这类判断，说明无法消除if语句，但是这种是预编译，也许可以让代码更干净一点吧
+
+
+2)头文件
+
+大部分都是只包含这2个头文件：
+    #include <ngx_config.h>
+    #include <ngx_core.h>
+
+3)过长的判断要换行
+ if (err == NGX_ECONNREFUSED
+#if (NGX_LINUX)
+                /*
+                 * Linux returns EAGAIN instead of ECONNREFUSED
+                 * for unix sockets if listen queue is full
+                 */
+                || err == NGX_EAGAIN
+#endif
+                || err == NGX_ECONNRESET
+                || err == NGX_ENETDOWN
+                || err == NGX_ENETUNREACH
+                || err == NGX_EHOSTDOWN
+                || err == NGX_EHOSTUNREACH)
+            {
+                level = NGX_LOG_ERR;
+
+            } else {
+                level = NGX_LOG_CRIT;
+            }
+
+
+4) 函数的命名，全部采用小写； 然后xx_xx_xx_xx这样子起名字
+ngx_int_t
+ngx_http_complex_value(ngx_http_request_t *r, ngx_http_complex_value_t *val,
+    ngx_str_t *value)
+{
+    size_t                        len;
+    ngx_http_script_code_pt       code;
+    ngx_http_script_len_code_pt   lcode;
+    ngx_http_script_engine_t      e;
+
+    if (val->lengths == NULL) {
+        *value = val->value;
+        return NGX_OK;
+    }
+
+    ngx_http_script_flush_complex_value(r, val);
+
+   ...
+}
